@@ -1,8 +1,7 @@
 package com.notifyhub.application.decorator;
 
 import com.notifyhub.application.port.INotificationStrategy;
-import com.notifyhub.domain.Messages;
-import com.notifyhub.domain.Recipient;
+import com.notifyhub.domain.Notification;
 
 public abstract class NotificationDecorator implements INotificationStrategy {
     protected final INotificationStrategy wrapped;
@@ -12,8 +11,8 @@ public abstract class NotificationDecorator implements INotificationStrategy {
     }
 
     @Override
-    public void send(Recipient recipient, Messages message) {
-        wrapped.send(recipient, message);
+    public void send(Notification notification) {
+        wrapped.send(notification);
     }
 
 }

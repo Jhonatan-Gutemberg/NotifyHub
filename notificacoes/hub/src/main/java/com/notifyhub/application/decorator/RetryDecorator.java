@@ -1,8 +1,7 @@
 package com.notifyhub.application.decorator;
 
 import com.notifyhub.application.port.INotificationStrategy;
-import com.notifyhub.domain.Messages;
-import com.notifyhub.domain.Recipient;
+import com.notifyhub.domain.Notification;
 
 public class RetryDecorator extends NotificationDecorator {
 
@@ -14,13 +13,13 @@ public class RetryDecorator extends NotificationDecorator {
     }
 
     @Override
-    public void send(Recipient recipient, Messages message) {
+    public void send(Notification notification) {
         int attempt = 0;
 
         while (true) {
             try {
                 attempt++;
-                wrapped.send(recipient, message);
+                wrapped.send(notification);
                 return;
             } catch (Exception e) {
                 if (attempt >= maxAttempts) {

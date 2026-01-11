@@ -8,6 +8,7 @@ import java.util.Properties;
 
 import com.notifyhub.application.port.INotificationStrategy;
 import com.notifyhub.domain.Messages;
+import com.notifyhub.domain.Notification;
 import com.notifyhub.domain.Recipient;
 
 public class EmailNotification implements INotificationStrategy {
@@ -24,8 +25,9 @@ public class EmailNotification implements INotificationStrategy {
     }
 
     @Override
-    public void send(Recipient recipient,Messages message) {
-
+    public void send(Notification notification) {
+        Recipient recipient = notification.getRecipient();
+        Messages message = notification.getMessage();
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
@@ -33,22 +35,21 @@ public class EmailNotification implements INotificationStrategy {
         props.put("mail.smtp.port", smtpPort);
 
         Session session = Session.getInstance(props,
-            new Authenticator() {
-                @Override
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(username, password);
-                }
-            });
+                new Authenticator() {
+                    @Override
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
 
         try {
             Message email = new MimeMessage(session);
             email.setFrom(new InternetAddress(username));
             email.setRecipients(
                     Message.RecipientType.TO,
-                    InternetAddress.parse(recipient.getAddress())
-            );
-            email.setSubject(message.gettitle());
-            email.setContent(message.getContent(),"text/html; charset=utf-8");
+                    InternetAddress.parse(recipient.getAddress()));
+            email.setSubject(message.getTitle());
+            email.setContent(message.getContent(), "text/html; charset=utf-8");
 
             Transport.send(email);
 
@@ -57,4 +58,3 @@ public class EmailNotification implements INotificationStrategy {
         }
     }
 }
-

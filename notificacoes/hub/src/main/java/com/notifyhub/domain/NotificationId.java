@@ -5,27 +5,27 @@ import java.util.Objects;
 
 public class NotificationId {
 
-    Long value;
-    LocalDate date;
+    private final Long value;
+    private final LocalDate date;
 
     private NotificationId(Long value, LocalDate date) {
-        this.value = Objects.requireNonNull(value, "Value is not null");
-        this.date = Objects.requireNonNull(date, "date is not null");
+        this.value = Objects.requireNonNull(value);
+        this.date = Objects.requireNonNull(date);
     }
 
-    public static NotificationId of(Long vale, LocalDate date) {
-        return new NotificationId(vale, date);
+    public static NotificationId of(Long value, LocalDate date) {
+        return new NotificationId(value, date);
+    }
 
+    @Override
+    public String toString() {
+        return value + "-" + date;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (!(obj instanceof NotificationId)) {
-            return false;
-        }
+        if (this == obj) return true;
+        if (!(obj instanceof NotificationId)) return false;
         NotificationId that = (NotificationId) obj;
         return value.equals(that.value) && date.equals(that.date);
     }
@@ -34,10 +34,4 @@ public class NotificationId {
     public int hashCode() {
         return Objects.hash(value, date);
     }
-
-    @Override
-    public String toString() {
-        return value + "-" + date;
-    }
-
 }

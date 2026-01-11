@@ -1,9 +1,8 @@
 package com.notifyhub.application.port;
 
-import com.notifyhub.domain.Messages;
-import com.notifyhub.domain.Recipient;
+import com.notifyhub.domain.Notification;
 
 public interface INotificationObserver {
-    void onNotificationSent(Recipient recipient, Messages message);
+    void onNotificationSent(Notification notification);
 
-    void onNotificationFailed(Recipient recipient, Messages message, String error);}
+    void onNotificationFailed(Notification notification, String error);}

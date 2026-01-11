@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import com.notifyhub.application.port.INotificationObserver;
 import com.notifyhub.application.port.INotificationStrategy;
 import com.notifyhub.domain.Messages;
+import com.notifyhub.domain.Notification;
 import com.notifyhub.domain.Recipient;
 
 public class NotificationUseCase {
@@ -26,36 +27,57 @@ public class NotificationUseCase {
         observers.remove(obs);
     }
 
-    public void sendNotification(Recipient recipient, Messages message) {
-        validate(recipient, message);
+    public void sendNotification(Notification notification) {
+        validate(notification);
+        Recipient recipient = notification.getRecipient();
         try {
-            send(recipient, message);
-            observers.forEach(obs -> obs.onNotificationSent(recipient, message));
-            log(message, recipient);
+            send(notification);
+            observers.forEach(obs -> obs.onNotificationSent(notification));
+            log(notification);
         } catch (Exception e) {
-            observers.forEach(obs -> obs.onNotificationFailed(recipient, message, e.getMessage()));
-            logger.error("Failed to send notification to recipient: {} with message: {}. Error: {}",
-                    recipient.getAddress(), message.gettitle(), e.getMessage());
+            observers.forEach(obs -> {
+                try {
+                    obs.onNotificationFailed(notification, e.getMessage());
+                } catch (Exception ex) {
+                    logger.warn("Observer failure callback failed: {}", ex.getMessage());
+                }
+            });
+
+            logger.error("Failed to send notification to {}. Error: {}",
+                    recipient.getAddress(), e.getMessage());
         }
     }
 
-    private void validate(Recipient recipient, Messages message) {
-        if (recipient == null) {
+    private void validate(Notification notification) {
+        if (notification == null) {
+            throw new IllegalArgumentException("Notification is null");
+        }
+        if (notification.getRecipient() == null) {
             logger.error("Recipient is null");
             throw new IllegalArgumentException("Recipient is required");
         }
-        if (message == null) {
+        if (notification.getMessage() == null) {
             logger.error("Message is null");
             throw new IllegalArgumentException("Message is required");
         }
+        if (notification.getType() == null) {
+            logger.error("Type is null");
+            throw new IllegalArgumentException("Type is required");
+        }
+        if (notification.getPriority() == null) {
+            logger.error("Priority is null");
+            throw new IllegalArgumentException("Priority is required");
+        }
     }
 
-    private void send(Recipient recipient, Messages message) {
-        notificationStrategy.send(recipient, message);
+    private void send(Notification notification) {
+        notificationStrategy.send(notification);
     }
 
-    private void log(Messages message, Recipient recipient) {
+    private void log(Notification notification) {
+        Recipient recipient = notification.getRecipient();
+        Messages message = notification.getMessage();
         logger.info("Sending notification to recipient: {} with message: {}", recipient.getAddress(),
-                message.gettitle());
+                message.getTitle());
     }
 }

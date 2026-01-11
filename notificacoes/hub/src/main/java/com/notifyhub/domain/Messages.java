@@ -15,7 +15,7 @@ public class Messages {
     public Messages() {
     }
 
-    public String gettitle() {
+    public String getTitle() {
         return this.title;
     }
 

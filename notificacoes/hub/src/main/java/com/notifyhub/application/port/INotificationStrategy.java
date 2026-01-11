@@ -1,9 +1,8 @@
 package com.notifyhub.application.port;
 
-import com.notifyhub.domain.Messages;
-import com.notifyhub.domain.Recipient;
+import com.notifyhub.domain.Notification;
 
 public interface INotificationStrategy {
-    void send(Recipient recipient, Messages message);
+    void send(Notification notification);
     
 }
