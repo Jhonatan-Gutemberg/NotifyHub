@@ -1,4 +1,4 @@
-package notificacoes.domain;
+package com.notifyhub.domain;
 
 import java.time.LocalDate;
 import java.util.concurrent.atomic.AtomicLong;

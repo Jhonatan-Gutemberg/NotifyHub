@@ -1,4 +1,4 @@
-package notificacoes.domain;
+package com.notifyhub.domain;
 
 import java.time.Instant;
 import java.util.Objects;
@@ -6,12 +6,12 @@ import java.util.Objects;
 public class Notification {
     private final NotificationId id;
     private Recipient recipient;
-    private Message message;
+    private Messages message;
     private NotificationType type;
     private Priority priority;
     private final Instant createdAt;
 
-    Notification(Recipient recipient, Message message, NotificationType type, Priority priority) {
+    Notification(Recipient recipient, Messages message, NotificationType type, Priority priority) {
         this.id = NotificationIdFactory.generate();
         this.recipient = Objects.requireNonNull(recipient);
         this.message = Objects.requireNonNull(message);
@@ -28,7 +28,7 @@ public class Notification {
         return recipient;
     }
 
-    public Message getMessage() {
+    public Messages getMessage() {
         return message;
     }
 

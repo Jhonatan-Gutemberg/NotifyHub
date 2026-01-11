@@ -1,4 +1,4 @@
-package notificacoes.domain;
+package com.notifyhub.domain;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -16,22 +16,6 @@ public class NotificationId {
     public static NotificationId of(Long vale, LocalDate date) {
         return new NotificationId(vale, date);
 
-    }
-
-    private void setValue(Long value) {
-        this.value = value;
-    }
-
-    private Long getValue() {
-        return this.value;
-    }
-
-    private void setdate(LocalDate date) {
-        this.date = date;
-    }
-
-    private LocalDate getdate() {
-        return this.date;
     }
 
     @Override

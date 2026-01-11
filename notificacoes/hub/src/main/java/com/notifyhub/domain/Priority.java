@@ -1,4 +1,4 @@
-package notificacoes.domain;
+package com.notifyhub.domain;
 
 public enum Priority {
     LOW,
