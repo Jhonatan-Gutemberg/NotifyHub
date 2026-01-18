@@ -29,8 +29,8 @@ public class JdbcNotificationLogRepository
     private void save(NotificationLog log) {
         String sql = """
                     INSERT INTO notification_log
-                    (notification_id, recipient, title, status, error_message, created_at)
-                    VALUES (?, ?, ?, ?, ?, ?)
+                    (notification_id, recipient, title, content, status, error_message, created_at)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
                 """;
 
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
@@ -39,9 +39,10 @@ public class JdbcNotificationLogRepository
             ps.setString(1, log.getNotificationId());
             ps.setString(2, log.getRecipient());
             ps.setString(3, log.getTitle());
-            ps.setString(4, log.getStatus());
-            ps.setString(5, log.getErrorMessage());
-            ps.setTimestamp(6, java.sql.Timestamp.from(log.getCreatedAt()));
+            ps.setString(4, log.getContent());
+            ps.setString(5, log.getStatus());
+            ps.setString(6, log.getErrorMessage());
+            ps.setTimestamp(7, java.sql.Timestamp.from(log.getCreatedAt()));
 
             ps.executeUpdate();
 
@@ -58,6 +59,7 @@ public class JdbcNotificationLogRepository
                 n.getId().toString(),
                 n.getRecipient().getAddress(),
                 n.getMessage().getTitle(),
+                n.getMessage().getContent(),
                 status,
                 error);
     }

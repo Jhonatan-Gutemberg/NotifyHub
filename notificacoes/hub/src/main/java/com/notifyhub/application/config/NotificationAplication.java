@@ -1,11 +1,14 @@
 package com.notifyhub.application.config;
 
 import com.notifyhub.application.decorator.LoggingDecorator;
+import com.notifyhub.application.fatory.NotificationFactory;
 import com.notifyhub.application.port.INotificationStrategy;
 import com.notifyhub.application.usecase.NotificationUseCase;
+import com.notifyhub.domain.NotificationType;
 import com.notifyhub.infra.DatabaseLogObserver;
 import com.notifyhub.infra.EmailNotificationStrategy;
 import com.notifyhub.infra.db.H2DatabaseInitializer;
+import com.notifyhub.infra.db.H2Server;
 import com.notifyhub.infra.repository.H2NotificationLogRepository;
 
 import io.github.cdimascio.dotenv.Dotenv;
@@ -21,9 +24,15 @@ public class NotificationAplication {
 
         H2DatabaseInitializer.init();
 
+        H2Server.start();
+
+        NotificationFactory factory = new NotificationFactory();
+
         INotificationStrategy email = new LoggingDecorator(
                 new EmailNotificationStrategy(user, pass));
-        NotificationUseCase useCase = new NotificationUseCase(email);
+
+        factory.registerStrategy(NotificationType.EMAIL, email);
+        NotificationUseCase useCase = new NotificationUseCase(factory);
 
         useCase.addObserver(new DatabaseLogObserver(new H2NotificationLogRepository()));
 

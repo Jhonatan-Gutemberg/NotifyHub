@@ -15,8 +15,8 @@ public class Main {
     public static void main(String[] args) {
 
         NotificationUseCase service = NotificationAplication.start();
-        String emailSender = "xxxxxxx";
-        String recipientName = "xxxxxxx";
+        String emailSender = "jhogufer@hotmail.com";
+        String recipientName = "Jhonatan";
         Recipient recipient = new Recipient(emailSender,recipientName);
         String title = "Notificação com strategy com E-mail padronizado - Design Patterns";
         String html = new DesignPatternsEmailTemplate().recipient(recipientName).build();

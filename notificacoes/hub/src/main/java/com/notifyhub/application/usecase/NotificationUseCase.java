@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.notifyhub.application.port.INotificationObserver;
 import com.notifyhub.application.port.INotificationStrategy;
-import com.notifyhub.application.port.NotificationStrategyFactory;
+import com.notifyhub.application.port.INotificationStrategyFactory;
 import com.notifyhub.domain.Notification;
 import com.notifyhub.domain.NotificationMessage;
 import com.notifyhub.domain.Recipient;
@@ -16,12 +16,10 @@ import com.notifyhub.domain.Recipient;
 public class NotificationUseCase {
     private final List<INotificationObserver> observers = new CopyOnWriteArrayList<>();
     private static final Logger logger = LoggerFactory.getLogger(NotificationUseCase.class);
-    private final NotificationStrategyFactory strategyFactory;  
-    private final INotificationStrategy notificationStrategy;
+    private final INotificationStrategyFactory strategyFactory;
 
-    public NotificationUseCase(INotificationStrategy strategy) {
-        this.notificationStrategy = strategy;
-        this.strategyFactory = null;
+    public NotificationUseCase(INotificationStrategyFactory strategyFactory) {
+        this.strategyFactory = strategyFactory;
     }
 
     public void addObserver(INotificationObserver obs) {
@@ -43,7 +41,6 @@ public class NotificationUseCase {
         } catch (Exception e) {
             observers.forEach(obs -> {
                 try {
-                    strategyFactory.get(notification.getType()).send(notification);
                     obs.onNotificationFailed(notification, e.getMessage());
                 } catch (Exception ex) {
                     logger.warn("Observer failure callback failed: {}", ex.getMessage());
@@ -78,7 +75,8 @@ public class NotificationUseCase {
     }
 
     private void send(Notification notification) {
-        notificationStrategy.send(notification);
+        INotificationStrategy strategy = strategyFactory.get(notification.getType());
+        strategy.send(notification);
     }
 
     private void log(Notification notification) {

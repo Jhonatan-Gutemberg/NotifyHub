@@ -14,6 +14,7 @@ public class H2DatabaseInitializer {
                         type VARCHAR(50),
                         priority VARCHAR(50),
                         title VARCHAR(255),
+                        content CLOB,
                         status VARCHAR(20),
                         error_message VARCHAR(500),
                         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

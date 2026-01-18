@@ -29,8 +29,8 @@ public class H2NotificationLogRepository
 
         String sql = """
                     INSERT INTO notification_log
-                    (notification_id, recipient, type, priority, title, status, error_message, created_at)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                    (notification_id, recipient, type, priority, title, content, status, error_message, created_at)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """;
 
         try (Connection conn = H2ConnectionFactory.getConnection();
@@ -41,9 +41,10 @@ public class H2NotificationLogRepository
             ps.setString(3, notification.getType().name());
             ps.setString(4, notification.getPriority().name());
             ps.setString(5, notification.getMessage().getTitle());
-            ps.setString(6, status);
-            ps.setString(7, error);
-            ps.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
+            ps.setString(6,notification.getMessage().getContent());
+            ps.setString(7, status);
+            ps.setString(8, error);
+            ps.setTimestamp(9, Timestamp.valueOf(LocalDateTime.now()));
 
             ps.executeUpdate();
 

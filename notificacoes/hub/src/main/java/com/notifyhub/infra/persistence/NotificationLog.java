@@ -7,6 +7,7 @@ public class NotificationLog {
     private final String notificationId;
     private final String recipient;
     private final String title;
+    private final String content;
     private final String status;
     private final String errorMessage;
     private final Instant createdAt;
@@ -15,11 +16,13 @@ public class NotificationLog {
             String notificationId,
             String recipient,
             String title,
+            String content,
             String status,
             String errorMessage) {
         this.notificationId = notificationId;
         this.recipient = recipient;
         this.title = title;
+        this.content = content;
         this.status = status;
         this.errorMessage = errorMessage;
         this.createdAt = Instant.now();
@@ -35,6 +38,10 @@ public class NotificationLog {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getContent() {
+        return content;
     }
 
     public String getStatus() {

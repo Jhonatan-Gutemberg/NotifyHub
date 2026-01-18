@@ -2,7 +2,7 @@ package com.notifyhub.application.port;
 
 import com.notifyhub.domain.NotificationType;
 
-public interface NotificationStrategyFactory {
+public interface INotificationStrategyFactory {
     INotificationStrategy get(NotificationType type);
 }
 
