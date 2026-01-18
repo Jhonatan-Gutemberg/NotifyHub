@@ -1,0 +1,32 @@
+package com.notifyhub.application.config;
+
+import com.notifyhub.application.decorator.LoggingDecorator;
+import com.notifyhub.application.port.INotificationStrategy;
+import com.notifyhub.application.usecase.NotificationUseCase;
+import com.notifyhub.infra.DatabaseLogObserver;
+import com.notifyhub.infra.EmailNotificationStrategy;
+import com.notifyhub.infra.db.H2DatabaseInitializer;
+import com.notifyhub.infra.repository.H2NotificationLogRepository;
+
+import io.github.cdimascio.dotenv.Dotenv;
+
+public class NotificationAplication {
+    public static NotificationUseCase start() {
+        Dotenv dotenv = Dotenv.load();
+        String user = dotenv.get("EMAIL_USER");
+        String pass = dotenv.get("EMAIL_PASS");
+        if (user == null || pass == null) {
+            throw new RuntimeException("Erro: Variáveis EMAIL_USER ou EMAIL_PASS não encontradas no arquivo .env");
+        }
+
+        H2DatabaseInitializer.init();
+
+        INotificationStrategy email = new LoggingDecorator(
+                new EmailNotificationStrategy(user, pass));
+        NotificationUseCase useCase = new NotificationUseCase(email);
+
+        useCase.addObserver(new DatabaseLogObserver(new H2NotificationLogRepository()));
+
+        return useCase;
+    }
+}

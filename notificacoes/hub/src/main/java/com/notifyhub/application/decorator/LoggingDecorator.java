@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.notifyhub.application.port.INotificationStrategy;
-import com.notifyhub.domain.Messages;
+import com.notifyhub.domain.NotificationMessage;
 import com.notifyhub.domain.Notification;
 import com.notifyhub.domain.Recipient;
 
@@ -20,7 +20,7 @@ public class LoggingDecorator extends NotificationDecorator {
     @Override
     public void send(Notification notification) {
         Recipient recipient = notification.getRecipient();
-        Messages message = notification.getMessage();
+        NotificationMessage message = notification.getMessage();
         logger.info(
             "Sending notification to {} with title {}",
             recipient.getAddress(),

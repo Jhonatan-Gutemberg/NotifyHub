@@ -6,7 +6,8 @@ import java.sql.SQLException;
 
 public class H2ConnectionFactory {
 
-    private static final String URL = "jdbc:h2:tcp://localhost/./data/notifyhub-db;IFEXISTS=FALSE";
+    private static final String URL =
+            "jdbc:h2:file:./data/notifyhub-db";
 
     private static final String USER = "sa";
     private static final String PASS = "";

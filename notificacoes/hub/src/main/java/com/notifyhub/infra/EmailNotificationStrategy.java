@@ -1,17 +1,22 @@
 package com.notifyhub.infra;
 
-import jakarta.mail.*;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeMessage;
-
 import java.util.Properties;
 
 import com.notifyhub.application.port.INotificationStrategy;
-import com.notifyhub.domain.Messages;
+import com.notifyhub.domain.NotificationMessage;
 import com.notifyhub.domain.Notification;
 import com.notifyhub.domain.Recipient;
 
-public class EmailNotification implements INotificationStrategy {
+import jakarta.mail.Authenticator;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
+
+public class EmailNotificationStrategy implements INotificationStrategy {
 
     private final String smtpHost = "smtp.gmail.com";
     private final int smtpPort = 587;
@@ -19,7 +24,7 @@ public class EmailNotification implements INotificationStrategy {
     private final String username;
     private final String password;
 
-    public EmailNotification(String username, String password) {
+    public EmailNotificationStrategy(String username, String password) {
         this.username = username;
         this.password = password;
     }
@@ -27,7 +32,7 @@ public class EmailNotification implements INotificationStrategy {
     @Override
     public void send(Notification notification) {
         Recipient recipient = notification.getRecipient();
-        Messages message = notification.getMessage();
+        NotificationMessage message = notification.getMessage();
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");

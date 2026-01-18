@@ -1,14 +1,14 @@
 package com.notifyhub.application.builder;
 
-import com.notifyhub.domain.Messages;
 import com.notifyhub.domain.Notification;
+import com.notifyhub.domain.NotificationMessage;
 import com.notifyhub.domain.NotificationType;
 import com.notifyhub.domain.Priority;
 import com.notifyhub.domain.Recipient;
 
 public class NotificationBuilder {
     private Recipient recipient;
-    private Messages message;
+    private NotificationMessage message;
     private NotificationType type;
     private Priority priority;
 
@@ -17,7 +17,7 @@ public class NotificationBuilder {
         return this;
     }
 
-    public NotificationBuilder setMessage(Messages message) {
+    public NotificationBuilder setMessage(NotificationMessage message) {
         this.message = message;
         return this;
     }

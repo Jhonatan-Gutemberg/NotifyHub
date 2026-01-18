@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 
 import com.notifyhub.application.port.INotificationLogRepository;
 import com.notifyhub.domain.Notification;
-import com.notifyhub.infra.entity.NotificationLog;
+import com.notifyhub.infra.persistence.NotificationLog;
 
 public class JdbcNotificationLogRepository
         implements INotificationLogRepository {

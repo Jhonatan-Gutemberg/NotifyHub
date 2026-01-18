@@ -5,13 +5,13 @@ import java.util.Objects;
 
 public class Notification {
     private final NotificationId id;
-    private Recipient recipient;
-    private Messages message;
-    private NotificationType type;
-    private Priority priority;
+    private final Recipient recipient;
+    private final NotificationMessage message;
+    private final NotificationType type;
+    private final Priority priority;
     private final Instant createdAt;
 
-    public Notification(Recipient recipient, Messages message, NotificationType type, Priority priority) {
+    public Notification(Recipient recipient, NotificationMessage message, NotificationType type, Priority priority) {
         this.id = NotificationIdFactory.generate();
         this.recipient = Objects.requireNonNull(recipient);
         this.message = Objects.requireNonNull(message);
@@ -28,7 +28,7 @@ public class Notification {
         return recipient;
     }
 
-    public Messages getMessage() {
+    public NotificationMessage getMessage() {
         return message;
     }
 

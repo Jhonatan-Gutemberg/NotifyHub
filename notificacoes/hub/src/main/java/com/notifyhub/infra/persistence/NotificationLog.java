@@ -1,4 +1,4 @@
-package com.notifyhub.infra.entity;
+package com.notifyhub.infra.persistence;
 
 import java.time.Instant;
 
