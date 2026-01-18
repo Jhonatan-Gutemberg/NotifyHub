@@ -21,6 +21,10 @@ public class Recipient {
         return this.address;
     }
 
+    public String setAddress(String Address){
+        return this.address = Address;
+    }
+
     public String getName() {
         return name;
     }
