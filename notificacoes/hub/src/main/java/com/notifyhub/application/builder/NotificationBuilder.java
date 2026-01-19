@@ -1,5 +1,6 @@
 package com.notifyhub.application.builder;
 
+import com.notifyhub.application.exception.NotificationValidationException;
 import com.notifyhub.domain.Notification;
 import com.notifyhub.domain.NotificationMessage;
 import com.notifyhub.domain.NotificationType;
@@ -34,18 +35,18 @@ public class NotificationBuilder {
 
     public Notification build() {
         if (recipient == null) {
-            throw new IllegalArgumentException("Recipient is required");
+            throw new NotificationValidationException("Recipient is required");
         }
         if (message == null) {
-            throw new IllegalArgumentException("Message is required");
+            throw new NotificationValidationException("Message is required");
         }
         if (type == null) {
-            throw new IllegalArgumentException("Notification type is required");
+            throw new NotificationValidationException("Notification type is required");
         }
         if (priority == null) {
-            throw new IllegalArgumentException("Priority is required");
+            throw new NotificationValidationException("Priority is required");
         }
         return new Notification(recipient, message, type, priority);
     }
-    
+
 }

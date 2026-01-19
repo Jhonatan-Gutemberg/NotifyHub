@@ -3,6 +3,8 @@ package com.notifyhub.infra.db;
 import java.sql.Connection;
 import java.sql.Statement;
 
+import com.notifyhub.application.exception.ConfigurationException;
+
 public class H2DatabaseInitializer {
 
     public static void init() {
@@ -27,7 +29,7 @@ public class H2DatabaseInitializer {
             stmt.execute(sql);
 
         } catch (Exception e) {
-            throw new RuntimeException("Failed to initialize database", e);
+            throw new ConfigurationException("Failed to initialize database", e);
         }
     }
 }

@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import com.notifyhub.application.exception.ConfigurationException;
+
 public class H2ConnectionFactory {
 
     private static final String URL =
@@ -16,7 +18,7 @@ public class H2ConnectionFactory {
         try {
             Class.forName("org.h2.Driver");
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new ConfigurationException("Driver H2 não encontrado no classpath.",e);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.notifyhub.application.config;
 
 import com.notifyhub.application.decorator.LoggingDecorator;
+import com.notifyhub.application.exception.ConfigurationException;
 import com.notifyhub.application.fatory.NotificationFactory;
 import com.notifyhub.application.port.INotificationStrategy;
 import com.notifyhub.application.usecase.NotificationUseCase;
@@ -19,23 +20,28 @@ public class NotificationAplication {
         String user = dotenv.get("EMAIL_USER");
         String pass = dotenv.get("EMAIL_PASS");
         if (user == null || pass == null) {
-            throw new RuntimeException("Erro: Variáveis EMAIL_USER ou EMAIL_PASS não encontradas no arquivo .env");
+            throw new ConfigurationException(
+                    "Erro: Variáveis EMAIL_USER ou EMAIL_PASS não encontradas no arquivo .env");
         }
+        try {
+            H2DatabaseInitializer.init();
 
-        H2DatabaseInitializer.init();
+            H2Server.start();
 
-        H2Server.start();
+            NotificationFactory factory = new NotificationFactory();
 
-        NotificationFactory factory = new NotificationFactory();
+            INotificationStrategy email = new LoggingDecorator(
+                    new EmailNotificationStrategy(user, pass));
 
-        INotificationStrategy email = new LoggingDecorator(
-                new EmailNotificationStrategy(user, pass));
+            factory.registerStrategy(NotificationType.EMAIL, email);
+            NotificationUseCase useCase = new NotificationUseCase(factory);
 
-        factory.registerStrategy(NotificationType.EMAIL, email);
-        NotificationUseCase useCase = new NotificationUseCase(factory);
+            useCase.addObserver(new DatabaseLogObserver(new H2NotificationLogRepository()));
 
-        useCase.addObserver(new DatabaseLogObserver(new H2NotificationLogRepository()));
+            return useCase;
 
-        return useCase;
+        } catch (Exception e) {
+            throw new ConfigurationException("Erro ao iniciar a aplicação", e);
+        }
     }
 }

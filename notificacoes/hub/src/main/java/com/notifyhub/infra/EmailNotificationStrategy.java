@@ -2,9 +2,10 @@ package com.notifyhub.infra;
 
 import java.util.Properties;
 
+import com.notifyhub.application.exception.NotificationSendException;
 import com.notifyhub.application.port.INotificationStrategy;
-import com.notifyhub.domain.NotificationMessage;
 import com.notifyhub.domain.Notification;
+import com.notifyhub.domain.NotificationMessage;
 import com.notifyhub.domain.Recipient;
 
 import jakarta.mail.Authenticator;
@@ -59,7 +60,7 @@ public class EmailNotificationStrategy implements INotificationStrategy {
             Transport.send(email);
 
         } catch (MessagingException e) {
-            throw new RuntimeException("Erro ao enviar e-mail", e);
+            throw new NotificationSendException("Erro ao enviar e-mail", e);
         }
     }
 }

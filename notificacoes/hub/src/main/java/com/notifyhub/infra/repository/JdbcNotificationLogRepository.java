@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
+import com.notifyhub.application.exception.ConfigurationException;
 import com.notifyhub.application.port.INotificationLogRepository;
 import com.notifyhub.domain.Notification;
 import com.notifyhub.infra.persistence.NotificationLog;
@@ -47,7 +48,7 @@ public class JdbcNotificationLogRepository
             ps.executeUpdate();
 
         } catch (Exception e) {
-            throw new RuntimeException("Failed to persist notification log", e);
+            throw new ConfigurationException("Failed to persist notification log", e);
         }
     }
 

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+import com.notifyhub.application.exception.ConfigurationException;
 import com.notifyhub.application.port.INotificationLogRepository;
 import com.notifyhub.domain.Notification;
 import com.notifyhub.infra.db.H2ConnectionFactory;
@@ -49,7 +50,7 @@ public class H2NotificationLogRepository
             ps.executeUpdate();
 
         } catch (Exception e) {
-            throw new RuntimeException("Failed to persist notification log", e);
+            throw new ConfigurationException("Failed to persist notification log", e);
         }
     }
 }

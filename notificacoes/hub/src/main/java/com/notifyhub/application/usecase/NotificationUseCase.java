@@ -6,6 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.notifyhub.application.exception.NotificationValidationException;
 import com.notifyhub.application.port.INotificationObserver;
 import com.notifyhub.application.port.INotificationStrategy;
 import com.notifyhub.application.port.INotificationStrategyFactory;
@@ -54,23 +55,23 @@ public class NotificationUseCase {
 
     private void validate(Notification notification) {
         if (notification == null) {
-            throw new IllegalArgumentException("Notification is null");
+            throw new NotificationValidationException("Notification is null");
         }
         if (notification.getRecipient() == null) {
             logger.error("Recipient is null");
-            throw new IllegalArgumentException("Recipient is required");
+            throw new NotificationValidationException("Recipient is required");
         }
         if (notification.getMessage() == null) {
             logger.error("Message is null");
-            throw new IllegalArgumentException("Message is required");
+            throw new NotificationValidationException("Message is required");
         }
         if (notification.getType() == null) {
             logger.error("Type is null");
-            throw new IllegalArgumentException("Type is required");
+            throw new NotificationValidationException("Type is required");
         }
         if (notification.getPriority() == null) {
             logger.error("Priority is null");
-            throw new IllegalArgumentException("Priority is required");
+            throw new NotificationValidationException("Priority is required");
         }
     }
 

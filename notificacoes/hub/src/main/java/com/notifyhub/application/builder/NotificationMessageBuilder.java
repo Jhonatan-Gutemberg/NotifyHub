@@ -1,5 +1,6 @@
 package com.notifyhub.application.builder;
 
+import com.notifyhub.application.exception.NotificationValidationException;
 import com.notifyhub.domain.NotificationMessage;
 
 public class NotificationMessageBuilder {
@@ -18,10 +19,10 @@ public class NotificationMessageBuilder {
 
     public NotificationMessage build() {
         if (title == null || title.isEmpty()) {
-            throw new IllegalArgumentException("Title is required");
+            throw new NotificationValidationException("Title is required");
         }
         if (content == null || content.isEmpty()) {
-           throw new IllegalArgumentException("Content is required");
+           throw new NotificationValidationException("Content is required");
         }
         return new NotificationMessage(title, content);
     }
