@@ -28,6 +28,20 @@ Implementações concretas de persistência e envio:
 
 ---
 
+## 🧭 Architectural Style (Clean Architecture)
+
+This project follows principles inspired by **Clean Architecture**, ensuring a clear separation of concerns and high maintainability.
+
+Key principles applied:
+
+- **Domain layer is framework-agnostic**
+- **Application layer orchestrates use cases and business flows**
+- **Infrastructure layer depends on abstractions (ports)**
+- **Dependency Inversion Principle (DIP)** is enforced through interfaces
+
+This approach allows the system to evolve with minimal impact when introducing new notification channels or infrastructure changes.
+
+
 ## 🎯 Padrões de Projeto Implementados
 
 ### 1️⃣ **Builder Pattern**
@@ -275,7 +289,8 @@ notifications/hub/
 │   │   ├── config/           # Configurações
 │   │   ├── decorator/        # Decorator Pattern
 │   │   ├── exception/        # Exceções personalizadas
-│   │   ├── fatory/           # Factory Pattern
+│   │   ├── factory/           # Factory Pattern
+|   |   ├── observer/         # Observer Pattern
 │   │   ├── port/             # Interfaces (Strategy, Observer, Repository)
 │   │   ├── templates/        # Template Method Pattern
 │   │   └── usecase/          # Casos de uso
@@ -290,7 +305,6 @@ notifications/hub/
 │   │   ├── db/               # Conexão com banco de dados
 │   │   ├── persistence/      # Modelos de persistência
 │   │   ├── repository/       # Implementações de repositório
-│   │   ├── DatabaseLogObserver.java
 │   │   └── EmailNotificationStrategy.java
 │   └── Main.java             # Ponto de entrada
 └── pom.xml                   # Configuração Maven

@@ -1,4 +1,4 @@
-package com.notifyhub.application.fatory;
+package com.notifyhub.application.factory;
 
 import java.util.HashMap;
 import java.util.Map;
