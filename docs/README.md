@@ -1,30 +1,30 @@
-# Notification Hub - Documentação de Padrões de Projeto
+# Notification Hub - Design Patterns Documentation
 
-## 📋 Descrição do Projeto
+## 📋 Project Description
 
-O **Notification Hub** é uma aplicação Java que demonstra a implementação de diversos padrões de projeto (Design Patterns) em um sistema de gerenciamento e envio de notificações. O projeto utiliza **Java 21 LTS** e **Maven** como ferramenta de build.
+**Notification Hub** is a Java application that demonstrates the implementation of various design patterns in a notification management and sending system. The project uses **Java 21 LTS** and **Maven** as the build tool.
 
-## 🏗️ Arquitetura
+## 🏗️ Architecture
 
-A arquitetura do projeto é dividida em três camadas principais:
+The project architecture is divided into three main layers:
 
-### 1. **Domain Layer** (Camada de Domínio)
-Contém as entidades de negócio e regras de domínio:
-- `Notification` - Entidade principal de notificação
-- `Recipient` - Destinatário da notificação
-- `NotificationMessage` - Conteúdo da mensagem
-- `NotificationType` - Tipo de notificação
-- `Priority` - Prioridade da notificação
+### 1. **Domain Layer**
+Contains business entities and domain rules:
+- `Notification` - Main notification entity
+- `Recipient` - Notification recipient
+- `NotificationMessage` - Message content
+- `NotificationType` - Type of notification
+- `Priority` - Notification priority
 
-### 2. **Application Layer** (Camada de Aplicação)
-Implementa os padrões de projeto e casos de uso:
+### 2. **Application Layer**
+Implements design patterns and use cases:
 - Builder, Decorator, Factory, Strategy, Template Method, Observer
 
-### 3. **Infrastructure Layer** (Camada de Infraestrutura)
-Implementações concretas de persistência e envio:
-- Banco de dados H2
-- Estratégia de envio por Email
-- Repositório de logs
+### 3. **Infrastructure Layer**
+Concrete implementations of persistence and sending:
+- H2 Database
+- Email sending strategy
+- Log repository
 
 ---
 
@@ -42,11 +42,11 @@ Key principles applied:
 This approach allows the system to evolve with minimal impact when introducing new notification channels or infrastructure changes.
 
 
-## 🎯 Padrões de Projeto Implementados
+## 🎯 Design Patterns Implemented
 
 ### 1️⃣ **Builder Pattern**
 
-Utilizado para construir objetos complexos `Notification` de forma fluente e segura.
+Used to construct complex `Notification` objects in a fluent and safe manner.
 
 ```mermaid
 classDiagram
@@ -71,14 +71,14 @@ classDiagram
         -Instant createdAt
     }
     
-    NotificationBuilder --> Notification : cria
+    NotificationBuilder --> Notification : creates
 ```
 
 ---
 
 ### 2️⃣ **Strategy Pattern**
 
-Define diferentes estratégias de envio de notificações de forma intercambiável.
+Defines different notification sending strategies that can be used interchangeably.
 
 ```mermaid
 classDiagram
@@ -100,14 +100,14 @@ classDiagram
     }
     
     INotificationStrategy <|.. EmailNotificationStrategy
-    NotificationUseCase --> INotificationStrategy : usa
+    NotificationUseCase --> INotificationStrategy : uses
 ```
 
 ---
 
 ### 3️⃣ **Decorator Pattern**
 
-Adiciona comportamentos extras às estratégias de notificação sem modificar seu código.
+Adds extra behaviors to notification strategies without modifying their code.
 
 ```mermaid
 classDiagram
@@ -140,14 +140,14 @@ classDiagram
     NotificationDecorator <|-- LoggingDecorator
     NotificationDecorator <|-- RetryDecorator
     INotificationStrategy <|.. EmailNotificationStrategy
-    NotificationDecorator --> INotificationStrategy : decora
+    NotificationDecorator --> INotificationStrategy : decorates
 ```
 
 ---
 
 ### 4️⃣ **Factory Pattern**
 
-Cria instâncias de notificações e estratégias de forma centralizada.
+Creates instances of notifications and strategies in a centralized way.
 
 ```mermaid
 classDiagram
@@ -171,16 +171,16 @@ classDiagram
     }
     
     NotificationFactory --> NotificationIdFactory
-    NotificationFactory --> INotificationStrategyFactory : usa
-    NotificationFactory --> Notification : cria
-    INotificationStrategyFactory --> INotificationStrategy : cria
+    NotificationFactory --> INotificationStrategyFactory : uses
+    NotificationFactory --> Notification : creates
+    INotificationStrategyFactory --> INotificationStrategy : creates
 ```
 
 ---
 
 ### 5️⃣ **Observer Pattern**
 
-Notifica múltiplos observadores quando uma notificação é enviada.
+Notifies multiple observers when a notification is sent.
 
 ```mermaid
 classDiagram
@@ -207,15 +207,15 @@ classDiagram
     }
     
     INotificationObserver <|.. DatabaseLogObserver
-    NotificationUseCase --> INotificationObserver : notifica
-    DatabaseLogObserver --> INotificationLogRepository : usa
+    NotificationUseCase --> INotificationObserver : notifies
+    DatabaseLogObserver --> INotificationLogRepository : uses
 ```
 
 ---
 
 ### 6️⃣ **Template Method Pattern**
 
-Define a estrutura do algoritmo em uma classe base e deixa as subclasses implementarem partes específicas.
+Defines the structure of an algorithm in a base class and allows subclasses to implement specific parts.
 
 ```mermaid
 classDiagram
@@ -238,7 +238,7 @@ classDiagram
 
 ---
 
-## 📦 Dependências Principais
+## 📦 Main Dependencies
 
 ```xml
 <!-- Database -->
@@ -279,58 +279,58 @@ classDiagram
 
 ---
 
-## 🗂️ Estrutura de Diretórios
+## 🗂️ Directory Structure
 
 ```
 notifications/hub/
 ├── src/main/java/com/notifyhub/
-│   ├── application/          # Camada de Aplicação
+│   ├── application/          # Application Layer
 │   │   ├── builder/          # Builder Pattern
-│   │   ├── config/           # Configurações
+│   │   ├── config/           # Configuration
 │   │   ├── decorator/        # Decorator Pattern
-│   │   ├── exception/        # Exceções personalizadas
-│   │   ├── factory/           # Factory Pattern
+│   │   ├── exception/        # Custom Exceptions
+│   │   ├── factory/          # Factory Pattern
 |   |   ├── observer/         # Observer Pattern
 │   │   ├── port/             # Interfaces (Strategy, Observer, Repository)
 │   │   ├── templates/        # Template Method Pattern
-│   │   └── usecase/          # Casos de uso
-│   ├── domain/               # Camada de Domínio
+│   │   └── usecase/          # Use Cases
+│   ├── domain/               # Domain Layer
 │   │   ├── Notification.java
 │   │   ├── NotificationId.java
 │   │   ├── NotificationMessage.java
 │   │   ├── NotificationType.java
 │   │   ├── Priority.java
 │   │   └── Recipient.java
-│   ├── infra/                # Camada de Infraestrutura
-│   │   ├── db/               # Conexão com banco de dados
-│   │   ├── persistence/      # Modelos de persistência
-│   │   ├── repository/       # Implementações de repositório
+│   ├── infra/                # Infrastructure Layer
+│   │   ├── db/               # Database Connection
+│   │   ├── persistence/      # Persistence Models
+│   │   ├── repository/       # Repository Implementations
 │   │   └── EmailNotificationStrategy.java
-│   └── Main.java             # Ponto de entrada
-└── pom.xml                   # Configuração Maven
+│   └── Main.java             # Entry Point
+└── pom.xml                   # Maven Configuration
 ```
 
 ---
 
-## 🔧 Casos de Uso
+## 🔧 Use Cases
 
-### Enviar Notificação com Logs e Retry
+### Send Notification with Logging and Retry
 
 ```java
-// Criar notificação
+// Create notification
 Notification notification = new NotificationBuilder()
     .setRecipient(new Recipient("user@example.com"))
-    .setMessage(new NotificationMessage("Olá", "Bem-vindo!"))
+    .setMessage(new NotificationMessage("Hello", "Welcome!"))
     .setType(NotificationType.EMAIL)
     .setPriority(Priority.HIGH)
     .build();
 
-// Aplicar decoradores (Logging + Retry)
+// Apply decorators (Logging + Retry)
 INotificationStrategy strategy = new EmailNotificationStrategy();
 strategy = new LoggingDecorator(strategy);
 strategy = new RetryDecorator(strategy, 3, 1000);
 
-// Executar caso de uso
+// Execute use case
 NotificationUseCase useCase = new NotificationUseCase(strategy);
 useCase.registerObserver(new DatabaseLogObserver(repository));
 useCase.sendNotification(notification);
@@ -338,36 +338,36 @@ useCase.sendNotification(notification);
 
 ---
 
-## 🚀 Como Compilar e Executar
+## 🚀 How to Compile and Run
 
-### Pré-requisitos
+### Prerequisites
 - Java 21 LTS
 - Maven 3.9.12+
 
-### Compilar
+### Compile
 ```bash
 cd notifications/hub
 mvn clean compile
 ```
 
-### Executar Testes
+### Run Tests
 ```bash
 mvn test
 ```
 
-### Build Completo
+### Full Build
 ```bash
 mvn clean package
 ```
 
-### Executar Aplicação
+### Run Application
 ```bash
 mvn exec:java -Dexec.mainClass="com.notifyhub.Main"
 ```
 
 ---
 
-## 📊 Diagrama Geral de Classes
+## 📊 General Class Diagram
 
 ```mermaid
 classDiagram
@@ -440,9 +440,9 @@ classDiagram
 
 ---
 
-## 📝 Recursos Educacionais
+## 📝 Educational Resources
 
-Este projeto é um excelente exemplo de implementação dos seguintes padrões GOF (Gang of Four):
+This project is an excellent example of the implementation of the following GOF (Gang of Four) patterns:
 
 - ✅ **Creational**: Builder, Factory
 - ✅ **Structural**: Decorator
@@ -450,25 +450,25 @@ Este projeto é um excelente exemplo de implementação dos seguintes padrões G
 
 ---
 
-## 👨‍💻 Versão do Java
+## 👨‍💻 Java Version
 
 **Java 21 LTS** - Long Term Support
 
-Benefícios da upgrade para Java 21:
-- ✨ Record classes (atualizado)
-- 🔒 Sealed classes melhorado
-- ⚡ Pattern matching avançado
+Benefits of upgrading to Java 21:
+- ✨ Record classes (enhanced)
+- 🔒 Sealed classes improved
+- ⚡ Advanced pattern matching
 - 🧵 Virtual Threads (Project Loom)
-- 🎯 Melhor performance e segurança
+- 🎯 Better performance and security
 
 ---
 
-## 📄 Licença
+## 📄 License
 
-Este projeto é fornecido como material educacional.
+This project is provided as educational material.
 
 ---
 
-**Última atualização**: Janeiro 2026
-**Versão Java**: 21 LTS
-**Versão Maven**: 3.9.12+
+**Last updated**: January 2026
+**Java Version**: 21 LTS
+**Maven Version**: 3.9.12+
