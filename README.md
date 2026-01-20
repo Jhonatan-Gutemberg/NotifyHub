@@ -24,6 +24,5 @@ The project focuses on clean design, separation of concerns, and flexibility to 
 ├── docs/                 # Architecture and design documentation
 │   └── README.md
 ├── data/                 # Persistence or mock data
-├── .env
 ├── pom.xml
 └── README.md             # Project overview
