@@ -4,6 +4,40 @@
 
 **Notification Hub** is a Java application that demonstrates the implementation of various design patterns in a notification management and sending system. The project uses **Java 21 LTS** and **Maven** as the build tool.
 
+## 📧 Configuração de E-mail (Gmail)
+
+Para que a aplicação consiga enviar e-mails automaticamente, você precisa gerar uma **Senha de App**. Isso permite que o sistema se autentique no servidor SMTP do Google sem precisar da sua senha principal.
+
+### Passo a Passo para Gerar a Senha de App
+
+1. **Acesse sua Conta Google:**
+   Vá para [myaccount.google.com](https://myaccount.google.com/).
+
+2. **Ative a Verificação em Duas Etapas:**
+   * No menu lateral, clique em **Segurança**.
+   * Procure a seção "Como você faz login no Google".
+   * Certifique-se de que a **Verificação em duas etapas** esteja **Ativada**. (Este recurso é obrigatório para gerar senhas de app).
+
+3. **Gere a Senha de App:**
+   * Na barra de pesquisa no topo da página de conta, digite **"Senhas de app"** e clique no resultado correspondente.
+   * No campo "Nome do app", dê um nome para identificar onde você usará essa senha (ex: `Meu App de Vendas` ou `NodeJS Mailer`).
+   * Clique em **Criar**.
+
+4. **Copie o Código:**
+   * Uma janela aparecerá com um código de **16 caracteres** em um fundo amarelo.
+   * **Copie esse código imediatamente.** Você não conseguirá visualizá-lo novamente depois de fechar a janela.
+
+---
+
+### 🛠️ Configuração no Projeto
+
+No seu arquivo de configuração (geralmente o `.env`), utilize as seguintes credenciais:
+
+```env
+EMAIL_USER=seu-email@gmail.com
+EMAIL_PASS=o-codigo-de-16-digitos-que-voce-copiou
+```
+
 ## 🏗️ Architecture
 
 The project architecture is divided into three main layers:
