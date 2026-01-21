@@ -351,23 +351,27 @@ notifications/hub/
 ### Send Notification with Logging and Retry
 
 ```java
+NotificationUseCase service = NotificationAplication.start();
+        String emailSender = "email@hotmail.com";
+        String recipientName = "name";
+        Recipient recipient = new Recipient(emailSender,recipientName);
+        String title = "Notification with strategy E-mail";
 // Create notification
-Notification notification = new NotificationBuilder()
-    .setRecipient(new Recipient("user@example.com"))
-    .setMessage(new NotificationMessage("Hello", "Welcome!"))
-    .setType(NotificationType.EMAIL)
-    .setPriority(Priority.HIGH)
-    .build();
+NotificationMessage message = new NotificationMessageBuilder()
+                .setTitle(title)
+                .setContent(html)
+                .build();
 
 // Apply decorators (Logging + Retry)
-INotificationStrategy strategy = new EmailNotificationStrategy();
-strategy = new LoggingDecorator(strategy);
-strategy = new RetryDecorator(strategy, 3, 1000);
+Notification notification = new NotificationBuilder()
+                .setRecipient(recipient)
+                .setMessage(message)
+                .setType(NotificationType.EMAIL)
+                .setPriority(Priority.LOW)
+                .build();
 
 // Execute use case
-NotificationUseCase useCase = new NotificationUseCase(strategy);
-useCase.registerObserver(new DatabaseLogObserver(repository));
-useCase.sendNotification(notification);
+service.sendNotification(notification);
 ```
 
 ---
