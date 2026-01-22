@@ -12,7 +12,7 @@ public class Notification {
     private final Instant createdAt;
 
     public Notification(Recipient recipient, NotificationMessage message, NotificationType type, Priority priority) {
-        this.id = NotificationIdFactory.generate();
+        this.id = NotificationId.generate();
         this.recipient = Objects.requireNonNull(recipient);
         this.message = Objects.requireNonNull(message);
         this.type = Objects.requireNonNull(type);

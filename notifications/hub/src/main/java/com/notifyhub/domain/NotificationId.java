@@ -1,37 +1,43 @@
 package com.notifyhub.domain;
 
-import java.time.LocalDate;
 import java.util.Objects;
+import java.util.UUID;
 
-public class NotificationId {
+public final class NotificationId {
 
-    private final Long value;
-    private final LocalDate date;
+    private final String value;
 
-    private NotificationId(Long value, LocalDate date) {
+    private NotificationId(String value) {
         this.value = Objects.requireNonNull(value);
-        this.date = Objects.requireNonNull(date);
     }
 
-    public static NotificationId of(Long value, LocalDate date) {
-        return new NotificationId(value, date);
+    public static NotificationId generate() {
+        return new NotificationId(UUID.randomUUID().toString());
+    }
+
+    public static NotificationId of(String value) {
+        return new NotificationId(value);
+    }
+
+    public String getValue() {
+        return value;
     }
 
     @Override
     public String toString() {
-        return value + "-" + date;
+        return value;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!(obj instanceof NotificationId)) return false;
-        NotificationId that = (NotificationId) obj;
-        return value.equals(that.value) && date.equals(that.date);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof NotificationId)) return false;
+        NotificationId that = (NotificationId) o;
+        return value.equals(that.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value, date);
+        return value.hashCode();
     }
 }

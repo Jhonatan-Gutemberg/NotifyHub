@@ -6,12 +6,18 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.notifyhub.application.builder.NotificationBuilder;
+import com.notifyhub.application.builder.NotificationMessageBuilder;
+import com.notifyhub.application.dto.NotificationRequestDTO;
 import com.notifyhub.application.exception.NotificationValidationException;
 import com.notifyhub.application.port.INotificationObserver;
 import com.notifyhub.application.port.INotificationStrategy;
 import com.notifyhub.application.port.INotificationStrategyFactory;
+import com.notifyhub.application.templates.DesignPatternsEmailTemplate;
 import com.notifyhub.domain.Notification;
 import com.notifyhub.domain.NotificationMessage;
+import com.notifyhub.domain.NotificationType;
+import com.notifyhub.domain.Priority;
 import com.notifyhub.domain.Recipient;
 
 public class NotificationUseCase {
@@ -29,6 +35,29 @@ public class NotificationUseCase {
 
     public void removeObserver(INotificationObserver obs) {
         observers.remove(obs);
+    }
+
+    public Notification convertDTO(NotificationRequestDTO notificationRequestDTO) {
+
+        Recipient recipient = new Recipient(notificationRequestDTO.email(), notificationRequestDTO.name());
+        String title = "Notificação com strategy com E-mail padronizado - Design Patterns";
+        String html = new DesignPatternsEmailTemplate()
+                .recipient(recipient.getName())
+                .build();
+
+        NotificationMessage message = new NotificationMessageBuilder()
+                .setTitle(title)
+                .setContent(html)
+                .build();
+
+        Notification notification = new NotificationBuilder()
+                .setRecipient(recipient)
+                .setMessage(message)
+                .setType(NotificationType.valueOf(notificationRequestDTO.type()))
+                .setPriority(Priority.valueOf(notificationRequestDTO.priority()))
+                .build();
+        sendNotification(notification);
+        return notification;
     }
 
     public void sendNotification(Notification notification) {
@@ -77,6 +106,7 @@ public class NotificationUseCase {
 
     private void send(Notification notification) {
         INotificationStrategy strategy = strategyFactory.get(notification.getType());
+        System.out.println("Enviando");
         strategy.send(notification);
     }
 

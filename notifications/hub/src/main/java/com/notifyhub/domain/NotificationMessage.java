@@ -6,6 +6,7 @@ public class NotificationMessage {
     private final String id;
     private final String title;
     private final String content;
+    
 
     public NotificationMessage(String title, String content) {
         this.id = UUID.randomUUID().toString();

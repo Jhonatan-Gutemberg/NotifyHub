@@ -16,7 +16,9 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 public class NotificationAplication {
     public static NotificationUseCase start() {
-        Dotenv dotenv = Dotenv.load();
+        Dotenv dotenv = Dotenv.configure()
+        .filename(".env") 
+        .load();
         String user = dotenv.get("EMAIL_USER");
         String pass = dotenv.get("EMAIL_PASS");
         if (user == null || pass == null) {
@@ -25,21 +27,14 @@ public class NotificationAplication {
         }
         try {
             H2DatabaseInitializer.init();
-
             H2Server.start();
-
             NotificationFactory factory = new NotificationFactory();
-
             INotificationStrategy email = new LoggingDecorator(
                     new EmailNotificationStrategy(user, pass));
-
             factory.registerStrategy(NotificationType.EMAIL, email);
             NotificationUseCase useCase = new NotificationUseCase(factory);
-
             useCase.addObserver(new DatabaseLogObserver(new H2NotificationLogRepository()));
-
             return useCase;
-
         } catch (Exception e) {
             throw new ConfigurationException("Erro ao iniciar a aplicação", e);
         }
