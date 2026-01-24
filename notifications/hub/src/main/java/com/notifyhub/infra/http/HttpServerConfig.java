@@ -26,6 +26,5 @@ public class HttpServerConfig {
         );
 
         server.start();
-        System.out.println("Server running at http://localhost:8080");
     }
 }

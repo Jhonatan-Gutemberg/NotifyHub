@@ -1,0 +1,13 @@
+/* src/styles.css */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh; /* Evita que o teclado mobile empurre tudo */
+  
+  /* Impede qualquer movimento de arrastar/rolar */
+  overflow: hidden; 
+  position: fixed; 
+  touch-action: none; /* Desativa gestos de zoom/scroll em touch */
+}

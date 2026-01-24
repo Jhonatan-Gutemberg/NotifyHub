@@ -1,5 +1,6 @@
 package com.notifyhub.application.mapper;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonMapper {
@@ -9,8 +10,16 @@ public class JsonMapper {
     public static <T> T fromJson(String json, Class<T> clazz) {
         try {
             return mapper.readValue(json, clazz);
-        } catch (Exception e) {
+        } catch (JsonProcessingException e) {
             throw new RuntimeException("Invalid JSON", e);
+        }
+    }
+
+    public static String toJson(Object obj){
+        try {
+            return mapper.writeValueAsString(obj);
+        } catch (JsonProcessingException e) {
+            throw  new RuntimeException("Object invalid",e);
         }
     }
 }

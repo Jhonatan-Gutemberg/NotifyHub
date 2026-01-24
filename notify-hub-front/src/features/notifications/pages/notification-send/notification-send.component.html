@@ -1,0 +1,42 @@
+<section class="notification-container">
+  <div class="glass-card">
+    <header class="form-header">
+      <div class="icon-badge">
+        <i class="symbol">✉</i>
+      </div>
+      <h2>Enviar Notificação</h2>
+      <p>Integração direta com o ecossistema NotifyHub</p>
+    </header>
+
+    <form (ngSubmit)="sendData()" #notifForm="ngForm" class="interactive-form">
+      <div class="input-group" [class.focused]="nameFocused">
+        <label for="name">Nome do Destinatário</label>
+        <div class="input-wrapper">
+          <input 
+            type="text" id="name" name="name"
+            [(ngModel)]="formulario.name" required
+            (focus)="nameFocused = true" (blur)="nameFocused = false"
+            placeholder="Ex: João Silva">
+          <span class="focus-border"></span>
+        </div>
+      </div>
+
+      <div class="input-group" [class.focused]="emailFocused">
+        <label for="email">E-mail de Destino</label>
+        <div class="input-wrapper">
+          <input 
+            type="email" id="email" name="email"
+            [(ngModel)]="formulario.email" required email
+            (focus)="emailFocused = true" (blur)="emailFocused = false"
+            placeholder="exemplo@email.com">
+          <span class="focus-border"></span>
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="notifForm.invalid" class="btn-submit">
+        <span>Enviar para o Java</span>
+        <svg viewBox="0 0 24 24" class="btn-icon"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+      </button>
+    </form>
+  </div>
+</section>
