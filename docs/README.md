@@ -36,6 +36,8 @@ No seu arquivo de configuração (geralmente o `.env`), utilize as seguintes cre
 ```env
 EMAIL_USER=seu-email@gmail.com
 EMAIL_PASS=o-codigo-de-16-digitos-que-voce-copiou
+HTTP_PORT=8080
+CORS_ORIGIN=http://localhost:4200
 ```
 
 ## 🏗️ Architecture
