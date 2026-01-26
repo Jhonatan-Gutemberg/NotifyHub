@@ -54,7 +54,7 @@ public class DatabaseLogObserver implements INotificationObserver {
         if (email == null || !email.contains("@")) {
             return email;
         }
-        return email.replaceAll("(?<=.{2}).(?=[^@]*?@)|(?<=@.{2}).(?=.*\\.)", "*");
+        return email.replaceAll("(?<=.{2}).(?=[^@]*?@)|(?<=@.{2}).(?=.*\\.)", "***");
 
     }
 

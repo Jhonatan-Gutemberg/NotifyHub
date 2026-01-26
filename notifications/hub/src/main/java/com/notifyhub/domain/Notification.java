@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class Notification {
     private final NotificationId id;
-    private Recipient recipient;
+    private final Recipient recipient;
     private final NotificationMessage message;
     private final NotificationType type;
     private final Priority priority;
